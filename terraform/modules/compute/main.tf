@@ -9,11 +9,6 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-# Key Pair
-resource "aws_key_pair" "main" {
-  key_name   = "${var.project_name}-key"
-  public_key = file("~/.ssh/id_rsa.pub")
-}
 
 # Bastion Host
 resource "aws_instance" "bastion" {
@@ -21,7 +16,7 @@ resource "aws_instance" "bastion" {
   instance_type               = "t2.micro"
   subnet_id                   = var.public_subnet_ids[0]
   vpc_security_group_ids      = [var.bastion_sg_id]
-  key_name                    = aws_key_pair.main.key_name
+  key_name                    = "ways"
   associate_public_ip_address = true
 
   tags = {
@@ -36,7 +31,7 @@ resource "aws_launch_template" "app" {
   image_id      = data.aws_ami.amazon_linux.id
   instance_type = var.instance_type
 
-  key_name = aws_key_pair.main.key_name
+  key_name = "ways"
 
   network_interfaces {
     associate_public_ip_address = false
