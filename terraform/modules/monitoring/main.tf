@@ -48,6 +48,18 @@ resource "aws_iam_role_policy_attachment" "cloudwatch" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
+# IAM Policy for SSM
+resource "aws_iam_role_policy_attachment" "ssm" {
+  role       = aws_iam_role.ec2_cloudwatch.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
+}
+
+# IAM Policy for ECR
+resource "aws_iam_role_policy_attachment" "ecr" {
+  role       = aws_iam_role.ec2_cloudwatch.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
 # IAM Instance Profile
 resource "aws_iam_instance_profile" "ec2_cloudwatch" {
   name = "${var.project_name}-ec2-instance-profile"

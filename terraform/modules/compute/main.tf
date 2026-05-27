@@ -9,7 +9,6 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-
 # Bastion Host
 resource "aws_instance" "bastion" {
   ami                         = data.aws_ami.amazon_linux.id
@@ -45,9 +44,39 @@ resource "aws_launch_template" "app" {
   user_data = base64encode(<<-EOF
     #!/bin/bash
     yum update -y
-    yum install -y amazon-cloudwatch-agent
+    yum install -y amazon-cloudwatch-agent docker aws-cli
     systemctl start amazon-cloudwatch-agent
     systemctl enable amazon-cloudwatch-agent
+    systemctl start docker
+    systemctl enable docker
+
+    # Get secrets from SSM
+    MONGO_URI=$(aws ssm get-parameter --name "/starttech/MONGO_URI" --with-decryption --query 'Parameter.Value' --output text --region us-east-1)
+    DB_NAME=$(aws ssm get-parameter --name "/starttech/DB_NAME" --query 'Parameter.Value' --output text --region us-east-1)
+    JWT_SECRET_KEY=$(aws ssm get-parameter --name "/starttech/JWT_SECRET_KEY" --with-decryption --query 'Parameter.Value' --output text --region us-east-1)
+    ECR_IMAGE=$(aws ssm get-parameter --name "/starttech/ECR_IMAGE" --query 'Parameter.Value' --output text --region us-east-1)
+
+    # Login to ECR
+    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 430776404303.dkr.ecr.us-east-1.amazonaws.com
+
+    # Pull and run the Docker container
+    docker pull $ECR_IMAGE
+    docker stop starttech-backend || true
+    docker rm starttech-backend || true
+    docker run -d \
+      --name starttech-backend \
+      --restart always \
+      -p 8080:8080 \
+      -e MONGO_URI=$MONGO_URI \
+      -e DB_NAME=$DB_NAME \
+      -e JWT_SECRET_KEY=$JWT_SECRET_KEY \
+      -e PORT=8080 \
+      -e LOG_FORMAT=json \
+      -e LOG_LEVEL=INFO \
+      --log-driver=awslogs \
+      --log-opt awslogs-region=us-east-1 \
+      --log-opt awslogs-group=/starttech/production/app \
+      $ECR_IMAGE
   EOF
   )
 
