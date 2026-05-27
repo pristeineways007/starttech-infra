@@ -1,0 +1,76 @@
+{
+  "alarms": [
+    {
+      "AlarmName": "starttech-high-cpu",
+      "AlarmDescription": "EC2 CPU utilization is too high",
+      "MetricName": "CPUUtilization",
+      "Namespace": "AWS/EC2",
+      "Statistic": "Average",
+      "Dimensions": [
+        {
+          "Name": "AutoScalingGroupName",
+          "Value": "starttech-asg"
+        }
+      ],
+      "Period": 120,
+      "EvaluationPeriods": 2,
+      "Threshold": 80,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "TreatMissingData": "notBreaching"
+    },
+    {
+      "AlarmName": "starttech-high-5xx-errors",
+      "AlarmDescription": "ALB is returning too many 5XX errors",
+      "MetricName": "HTTPCode_Target_5XX_Count",
+      "Namespace": "AWS/ApplicationELB",
+      "Statistic": "Sum",
+      "Dimensions": [
+        {
+          "Name": "LoadBalancer",
+          "Value": "starttech-alb"
+        }
+      ],
+      "Period": 60,
+      "EvaluationPeriods": 2,
+      "Threshold": 10,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "TreatMissingData": "notBreaching"
+    },
+    {
+      "AlarmName": "starttech-high-response-time",
+      "AlarmDescription": "ALB target response time is too high",
+      "MetricName": "TargetResponseTime",
+      "Namespace": "AWS/ApplicationELB",
+      "Statistic": "Average",
+      "Dimensions": [
+        {
+          "Name": "LoadBalancer",
+          "Value": "starttech-alb"
+        }
+      ],
+      "Period": 60,
+      "EvaluationPeriods": 2,
+      "Threshold": 2,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "TreatMissingData": "notBreaching"
+    },
+    {
+      "AlarmName": "starttech-redis-high-cpu",
+      "AlarmDescription": "ElastiCache Redis CPU utilization is too high",
+      "MetricName": "CPUUtilization",
+      "Namespace": "AWS/ElastiCache",
+      "Statistic": "Average",
+      "Dimensions": [
+        {
+          "Name": "CacheClusterId",
+          "Value": "starttech-redis"
+        }
+      ],
+      "Period": 120,
+      "EvaluationPeriods": 2,
+      "Threshold": 80,
+      "ComparisonOperator": "GreaterThanThreshold",
+      "TreatMissingData": "notBreaching"
+    }
+  ]
+}

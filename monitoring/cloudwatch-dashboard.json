@@ -1,0 +1,91 @@
+{
+  "widgets": [
+    {
+      "type": "metric",
+      "properties": {
+        "title": "EC2 CPU Utilization",
+        "metrics": [
+          ["AWS/EC2", "CPUUtilization", "AutoScalingGroupName", "starttech-asg"]
+        ],
+        "period": 300,
+        "stat": "Average",
+        "region": "us-east-1",
+        "view": "timeSeries"
+      }
+    },
+    {
+      "type": "metric",
+      "properties": {
+        "title": "ALB Request Count",
+        "metrics": [
+          ["AWS/ApplicationELB", "RequestCount", "LoadBalancer", "starttech-alb"]
+        ],
+        "period": 300,
+        "stat": "Sum",
+        "region": "us-east-1",
+        "view": "timeSeries"
+      }
+    },
+    {
+      "type": "metric",
+      "properties": {
+        "title": "ALB Target Response Time",
+        "metrics": [
+          ["AWS/ApplicationELB", "TargetResponseTime", "LoadBalancer", "starttech-alb"]
+        ],
+        "period": 300,
+        "stat": "Average",
+        "region": "us-east-1",
+        "view": "timeSeries"
+      }
+    },
+    {
+      "type": "metric",
+      "properties": {
+        "title": "ALB HTTP 5XX Errors",
+        "metrics": [
+          ["AWS/ApplicationELB", "HTTPCode_Target_5XX_Count", "LoadBalancer", "starttech-alb"]
+        ],
+        "period": 300,
+        "stat": "Sum",
+        "region": "us-east-1",
+        "view": "timeSeries"
+      }
+    },
+    {
+      "type": "metric",
+      "properties": {
+        "title": "ElastiCache CPU Utilization",
+        "metrics": [
+          ["AWS/ElastiCache", "CPUUtilization", "CacheClusterId", "starttech-redis"]
+        ],
+        "period": 300,
+        "stat": "Average",
+        "region": "us-east-1",
+        "view": "timeSeries"
+      }
+    },
+    {
+      "type": "metric",
+      "properties": {
+        "title": "ElastiCache Cache Hits",
+        "metrics": [
+          ["AWS/ElastiCache", "CacheHits", "CacheClusterId", "starttech-redis"]
+        ],
+        "period": 300,
+        "stat": "Sum",
+        "region": "us-east-1",
+        "view": "timeSeries"
+      }
+    },
+    {
+      "type": "log",
+      "properties": {
+        "title": "Application Logs",
+        "query": "SOURCE '/starttech/production/app' | fields @timestamp, @message | sort @timestamp desc | limit 50",
+        "region": "us-east-1",
+        "view": "table"
+      }
+    }
+  ]
+}

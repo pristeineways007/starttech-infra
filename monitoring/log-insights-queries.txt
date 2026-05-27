@@ -1,0 +1,35 @@
+# All application errors in the last hour
+fields @timestamp, @message
+| filter @message like /ERROR/
+| sort @timestamp desc
+| limit 50
+
+# All application logs in the last hour
+fields @timestamp, @message
+| sort @timestamp desc
+| limit 100
+
+# Count of errors by type
+fields @timestamp, @message
+| filter @message like /ERROR/
+| stats count(*) as error_count by bin(1h)
+| sort error_count desc
+
+# Slow requests over 1 second
+fields @timestamp, @message
+| filter @message like /duration/
+| filter duration > 1000
+| sort @timestamp desc
+| limit 50
+
+# Failed authentication attempts
+fields @timestamp, @message
+| filter @message like /401/
+| sort @timestamp desc
+| limit 50
+
+# Application startup logs
+fields @timestamp, @message
+| filter @message like /started/
+| sort @timestamp desc
+| limit 20
