@@ -1,4 +1,10 @@
 terraform {
+  backend "s3" {
+    bucket = "starttech-terraform-state-430776404303"
+    key    = "starttech/terraform.tfstate"
+    region = "us-east-1"
+  }
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
