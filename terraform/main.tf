@@ -43,18 +43,18 @@ module "storage" {
 }
 
 module "compute" {
-  source                   = "./modules/compute"
-  project_name             = var.project_name
-  environment              = var.environment
-  vpc_id                   = module.networking.vpc_id
-  public_subnet_ids        = module.networking.public_subnet_ids
-  private_subnet_ids       = module.networking.private_subnet_ids
-  instance_type            = var.instance_type
-  min_size                 = var.min_size
-  max_size                 = var.max_size
-  desired_capacity         = var.desired_capacity
-  ec2_sg_id                = module.networking.ec2_sg_id
-  alb_sg_id                = module.networking.alb_sg_id
-  bastion_sg_id            = module.networking.bastion_sg_id
-  iam_instance_profile     = module.monitoring.iam_instance_profile
+  source               = "./modules/compute"
+  project_name         = var.project_name
+  environment          = var.environment
+  vpc_id               = module.networking.vpc_id
+  public_subnet_ids    = module.networking.public_subnet_ids
+  private_subnet_ids   = module.networking.private_subnet_ids
+  instance_type        = var.instance_type
+  min_size             = var.min_size
+  max_size             = var.max_size
+  desired_capacity     = var.desired_capacity
+  ec2_sg_id            = module.networking.ec2_sg_id
+  alb_sg_id            = module.networking.alb_sg_id
+  bastion_sg_id        = module.networking.bastion_sg_id
+  iam_instance_profile = module.monitoring.iam_instance_profile
 }
