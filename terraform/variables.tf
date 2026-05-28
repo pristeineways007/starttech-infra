@@ -37,7 +37,7 @@ variable "private_subnet_cidrs" {
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "min_size" {
@@ -61,5 +61,5 @@ variable "desired_capacity" {
 variable "redis_node_type" {
   description = "ElastiCache Redis node type"
   type        = string
-  default     = "cache.t2.micro"
+  default     = "cache.t3.micro"
 }
