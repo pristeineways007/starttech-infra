@@ -1,6 +1,3 @@
-Paste this into `README.md`:
-
-```markdown
 # StartTech Infrastructure
 
 Complete AWS infrastructure for the StartTech application, managed with Terraform.
@@ -59,9 +56,8 @@ cd starttech-infra
 ```
 
 ### 2. Configure variables
-```bash
 cp terraform/terraform.tfvars.example terraform/terraform.tfvars
-```
+
 
 Edit `terraform.tfvars` with your values.
 
@@ -72,10 +68,8 @@ cd scripts
 ```
 
 ### 4. Get outputs
-```bash
 cd terraform
 terraform output
-```
 
 ## CI/CD Pipeline
 
@@ -96,15 +90,10 @@ The infrastructure pipeline triggers automatically on push to main:
 
 To avoid AWS charges, destroy infrastructure when done:
 
-```bash
 cd terraform
 terraform destroy
-```
 
 ## Documentation
 
 - [Architecture](ARCHITECTURE.md) - System architecture details
 - [Runbook](RUNBOOK.md) - Operations and troubleshooting guide
-```
-
-Save and tell me when done.

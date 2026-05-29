@@ -1,6 +1,3 @@
-Paste this into `ARCHITECTURE.md`:
-
-```markdown
 # StartTech Infrastructure Architecture
 
 ## Overview
@@ -69,6 +66,3 @@ Triggers on push to main branch:
 - Runs terraform validate
 - Runs terraform plan on PRs
 - Runs terraform apply on merge to main
-```
-
-Save and tell me when done.

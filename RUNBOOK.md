@@ -1,6 +1,3 @@
-Now paste this into `RUNBOOK.md`:
-
-```markdown
 # StartTech Infrastructure Runbook
 
 ## Prerequisites
@@ -11,65 +8,61 @@ Now paste this into `RUNBOOK.md`:
 ## Initial Deployment
 
 ### Deploy All Infrastructure
-```bash
+
 cd scripts
 ./deploy-infrastructure.sh
-```
+
 
 ### Verify Deployment
-```bash
 cd terraform
 terraform output
-```
+
 
 ## Common Operations
 
 ### Add More EC2 Instances Manually
-```bash
 aws autoscaling set-desired-capacity \
   --auto-scaling-group-name starttech-asg \
   --desired-capacity 3
 ```
 
 ### View CloudWatch Logs
-```bash
+
 aws logs tail /starttech/production/app --follow
-```
+
 
 ### SSH Into Bastion Host
-```bash
+
 ssh -i ways.pem ec2-user@<bastion-public-ip>
-```
+
 
 ### Get All Infrastructure Outputs
-```bash
+
 cd terraform
 terraform output
-```
+
 
 ## Troubleshooting
 
 ### Terraform Apply Fails
 
 1. Check AWS credentials:
-```bash
+
 aws sts get-caller-identity
-```
+
 
 2. Check Terraform state:
-```bash
+
 terraform state list
-```
+
 
 3. Try refreshing state:
-```bash
 terraform refresh
-```
+
 
 ### EC2 Instances Not Starting
 
 1. Check ASG activity:
-```bash
 aws autoscaling describe-scaling-activities \
   --auto-scaling-group-name starttech-asg
 ```
@@ -92,10 +85,9 @@ aws autoscaling describe-scaling-activities \
 
 When done, destroy everything to stop AWS billing:
 
-```bash
 cd terraform
 terraform destroy
-```
+
 
 Type `yes` when prompted.
 
@@ -107,6 +99,4 @@ This will delete ALL AWS resources including:
 - ElastiCache Redis
 - CloudWatch log groups
 - IAM roles
-```
 
-Save and tell me when done.
